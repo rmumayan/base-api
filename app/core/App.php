@@ -5,8 +5,9 @@ class App{
     protected $method;
     protected $params = [];
     
-    public function __construct(){
-        $this->url = Helper::parseUrl();
+    public function __construct($request,$origin){
+        $this->url = Helper::parseUrl($request);
+        $this->ToSingularNoun();
         $this->Set_controller_and_require();
         $this->_set_params();
         $this->_set_method();
@@ -15,10 +16,12 @@ class App{
     }
 
     private function  Set_controller_and_require(){
-        $c_name = $this->url[0].'Controller';
+        $c_name =  ucfirst($this->url[0]).'Controller';
+
         $this->controller = new $c_name;
         unset($this->url[0]); //to make sure that this value wont be add on Set_params method
     }
+
 
     private function _set_method(){
         $this->method = $_SERVER['REQUEST_METHOD'];
@@ -32,4 +35,10 @@ class App{
          if (!method_exists($this->controller, $this->method)) throw new RequestException("Method '".$this->method."' does not exist.",404);
     }
 
+
+
+    private function ToSingularNoun(){
+        $last_position_of_s = strrpos($this->url[0],"s");
+        $this->url[0] = substr_replace($this->url[0],'',$last_position_of_s,1);
+    }
 }

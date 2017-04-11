@@ -2,9 +2,9 @@
 
 
 class Helper{
-    public static function parseUrl(){
-        if(!isset($_GET['url'])) throw new Exception("Cannot process empty request.");
-        $url = rtrim($_GET['url'],'/');
+    public static function parseUrl($request){
+        if(!isset($request)) throw new Exception("Cannot process empty request.");
+        $url = rtrim($request,'/');
         return $url = explode('/',filter_var($url,FILTER_SANITIZE_URL));
     }
 
