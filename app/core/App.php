@@ -32,7 +32,7 @@ class App{
     }
 
     private function _verify_API(){
-         if (!method_exists($this->controller, $this->method)) throw new RequestException("Method '".$this->method."' does not exist.",404);
+         if (!method_exists($this->controller, $this->method)) throw new RequestException("Method '$this->method' does not exist.",404);
     }
 
 
